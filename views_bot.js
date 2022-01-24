@@ -371,7 +371,7 @@ let useragents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
 //functions
 const run_bot = async () => {
     console.log('Launching browser ' + (++i))
-    const browser = await puppeteer.launch({headless: true, executablePath: '/usr/bin/chromium-browser', args: [`--user-agent=${ua[Math.floor((Math.random()*ua.length)) - 1]}`]})
+    const browser = await puppeteer.launch({headless: true, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', `--user-agent=${ua[Math.floor((Math.random()*ua.length)) - 1]}`]})
     const page = await browser.newPage()
     await page.setGeolocation({latitude: Math.random()*90, longitude: Math.random()*80})
     await page.emulateTimezone(timezones[Math.floor((Math.random()*timezones.length)) - 1])
