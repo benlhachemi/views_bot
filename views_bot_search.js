@@ -373,7 +373,7 @@ let useragents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
 //functions
 const run_bot = async () => {
     console.log('Launching browser ' + (++i))
-    const browser = await puppeteer.launch({headless: true, args: [`--user-agent=${ua[Math.floor((Math.random()*ua.length)) - 1]}`]})
+    const browser = await puppeteer.launch({headless: false, args: [`--user-agent=${ua[Math.floor((Math.random()*ua.length)) - 1]}`]})
     const page = await browser.newPage()
     await page.setGeolocation({latitude: Math.random()*90, longitude: Math.random()*80})
     await page.emulateTimezone(timezones[Math.floor((Math.random()*timezones.length)) - 1])
@@ -439,90 +439,27 @@ const run_bot = async () => {
         })
 
     })
-    await page.goto('https://youtube.com/watch?v=zFmb8edG5-k', {timeout: 120000})
-    await page.waitForSelector('#movie_player > div.ytp-cued-thumbnail-overlay > button').then(async() => {
+    await page.goto('https://www.youtube.com/results?search_query=التجسس على رسائل الواتساب', {timeout: 120000})
+    await page.evaluate(async() => {
+        window.scrollBy(0,8000)
+        const myInterval = setInterval(() => {
+            window.scrollBy(0,8000)
+        }, 1000)
+        setTimeout(() => {
+            clearInterval(myInterval)
+        }, 5000)
+    })
+    
+    /*await page.waitForSelector('#movie_player > div.ytp-cued-thumbnail-overlay > button').then(async() => {
         await page.click('#movie_player > div.ytp-cued-thumbnail-overlay > button')
     }).catch(err => {
         console.log('new error')
         return 0
-    })
-
-    const page2 = await browser.newPage()
-    await page2.setGeolocation({latitude: Math.random()*90, longitude: Math.random()*80})
-    await page2.emulateTimezone(timezones[Math.floor((Math.random()*timezones.length)) - 1])
-    //await page.setUserAgent(ua[Math.floor((Math.random()*ua.length)) - 1])
-    await page2.setViewport({
-        width: Math.floor(Math.random() * 1920 + 500),
-        height: Math.floor(Math.random() * 1080 + 500),
-        deviceScaleFactor: 1,
-        isMobile: Math.floor(Math.random() * 1) == 1 ? true : false,
-        hasTouch: Math.floor(Math.random() * 1) == 1 ? true : false,
-        isLandscape: Math.floor(Math.random() * 1) == 1 ? true : false,
-    })
-    await page2.emulateNetworkConditions({
-        download: Math.floor(Math.random()*2000000 + 50000),
-        upload: Math.floor(Math.random()*10000000 + 50000),
-        latency: Math.floor(Math.random()*1000),
-    })
-    await page2.evaluateOnNewDocument(()=>{
-        //browser values
-        let platforms = ['MacIntel', 'Win32', 'FreeBSD i386', 'WebTV OS', 'iPhone', 'MacPPC', 'Mac68K', 'FreeBSD', 'FreeBSD amd64', 'Linux', 'Linux aarch64', 'Linux armv6l', 'Linux armv7l', 'Linux armv8l', 'Linux i686', 'Linux x86_64', 'PlayStation 4', 'Linux ppc64']
-        let device_memory = ['1', '2', '4', '8', '12', '16', '32']
-        let CPU = ['1', '2', '4', '8', '12', '16']
-        let vendors = ['Google Inc.', 'Apple Computer, Inc.', '']
-        let lang = ["af", "sq", "ar-SA", "ar-IQ", "ar-EG", "ar-LY", "ar-DZ", "ar-MA", "ar-TN", "ar-OM",
-        "ar-YE", "ar-SY", "ar-JO", "ar-LB", "ar-KW", "ar-AE", "ar-BH", "ar-QA", "eu", "bg",
-        "be", "ca", "zh-TW", "zh-CN", "zh-HK", "zh-SG", "hr", "cs", "da", "nl", "nl-BE", "en",
-        "en-US", "en-EG", "en-AU", "en-GB", "en-CA", "en-NZ", "en-IE", "en-ZA", "en-JM",
-        "en-BZ", "en-TT", "et", "fo", "fa", "fi", "fr", "fr-BE", "fr-CA", "fr-CH", "fr-LU",
-        "gd", "gd-IE", "de", "de-CH", "de-AT", "de-LU", "de-LI", "el", "he", "hi", "hu", 
-        "is", "id", "it", "it-CH", "ja", "ko", "lv", "lt", "mk", "mt", "no", "pl",
-        "pt-BR", "pt", "rm", "ro", "ro-MO", "ru", "ru-MI", "sz", "sr", "sk", "sl", "sb",
-        "es", "es-AR", "es-GT", "es-CR", "es-PA", "es-DO", "es-MX", "es-VE", "es-CO", 
-        "es-PE", "es-EC", "es-CL", "es-UY", "es-PY", "es-BO", "es-SV", "es-HN", "es-NI", 
-        "es-PR", "sx", "sv", "sv-FI", "th", "ts", "tn", "tr", "uk", "ur", "ve", "vi", "xh",
-        "ji", "zu"]
-
-        Object.defineProperty(navigator.__proto__, 'deviceMemory', {
-            value: device_memory[Math.floor((Math.random()*device_memory.length)) - 1]
-        })
-
-        Object.defineProperty(navigator.__proto__, 'hardwareConcurrency', {
-            value: CPU[Math.floor((Math.random()*CPU.length)) - 1]
-        })
-
-        Object.defineProperty(navigator.__proto__, 'platform', {
-            value: platforms[Math.floor((Math.random()*platforms.length)) - 1]
-        })
-
-        Object.defineProperty(navigator.__proto__, 'vendor', {
-            value: vendors[Math.floor((Math.random()*vendors.length)) - 1]
-        })
-
-        Object.defineProperty(navigator.__proto__, 'language', {
-            value: lang[Math.floor((Math.random()*lang.length)) - 1]
-        })
-
-        Object.defineProperty(navigator.__proto__, 'languages', {
-            value: lang[Math.floor((Math.random()*lang.length)) - 1]
-        })
-
-        Object.defineProperty(navigator.__proto__, 'userAgent', {
-            value: ua[Math.floor((Math.random()*ua.length)) - 1]
-        })
-
-    })
-    await page2.goto('https://youtube.com/watch?v=zFmb8edG5-k', {timeout: 120000})
-    await page2.waitForSelector('#movie_player > div.ytp-cued-thumbnail-overlay > button').then(async() => {
-        await page2.click('#movie_player > div.ytp-cued-thumbnail-overlay > button')
-    }).catch(err => {
-        console.log('new error')
-        return 0
-    })
+    })*/
 
     
 
-    await page2.waitForTimeout(Math.floor(Math.random() * 120000 + 60000))
+    await page.waitForTimeout(Math.floor(Math.random() * 120000 + 60000))
     //await page.screenshot({path: `page1-${i}.png`})
     //await page2.screenshot({path: `page2-${i}.png`})
     await browser.close()
@@ -538,12 +475,4 @@ const keep_run = async() => {
 
 //main
 keep_run()
-keep_run()
-keep_run()
-keep_run()
-keep_run()
-keep_run()
-keep_run()
-keep_run()
-keep_run()
-keep_run()
+

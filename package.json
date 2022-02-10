@@ -12,6 +12,12 @@
   "dependencies": {
     "firefox": "^0.0.1",
     "puppeteer": "^13.0.1",
+    "puppeteer-extra": "^3.2.3",
+    "puppeteer-extra-plugin-anonymize-ua": "^2.3.3",
+    "puppeteer-extra-plugin-proxy": "^1.0.2",
+    "puppeteer-extra-plugin-recaptcha": "^3.5.0",
+    "puppeteer-extra-plugin-stealth": "^2.9.0",
+    "puppeteer-page-proxy": "^1.2.8",
     "user-agent-array": "^2.0.1"
   }
 }
