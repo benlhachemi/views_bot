@@ -4,3 +4,6 @@ node_modules
 *.png
 .png
 /*.png
+./myUserDataDir
+/myUserDataDir
+myUserDataDir
